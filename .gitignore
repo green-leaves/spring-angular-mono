@@ -1,0 +1,11 @@
+target/
+.idea/
+*.iml
+*.class
+.settings*
+.project
+.factorypath
+.classpath
+bower_components/
+node_modules/
+rebel.xml

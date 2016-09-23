@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="spring-gulp">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Experiment</title>
+    <link rel="stylesheet" href="css/styles.min.css">
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="nav nav-sidebar">
+                    <li><a ui-sref="home">Home<i class="fa fa-star"></i></a></li>
+                    <li><a ui-sref="admin">Admin</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <ui-view></ui-view>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/vendor.min.js"></script>
+
+    <script src="js/app.min.js"></script>
+
+</body>
+</html>
