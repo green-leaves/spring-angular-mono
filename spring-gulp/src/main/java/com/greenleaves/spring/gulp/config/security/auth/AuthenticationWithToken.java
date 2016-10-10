@@ -1,5 +1,6 @@
-package com.greenleaves.spring.gulp.config.security;
+package com.greenleaves.spring.gulp.config.security.auth;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
@@ -24,9 +25,13 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
         this.token = token;
     }
 
-    public AuthenticationWithToken(Object aPrincipal, Object aCredentials,
-                                   Collection<? extends GrantedAuthority> anAuthorities, String token) {
+    public AuthenticationWithToken(Object aPrincipal, Object aCredentials, Collection<? extends GrantedAuthority> anAuthorities, String token) {
         super(aPrincipal, aCredentials, anAuthorities);
+        this.token = token;
+    }
+
+    public AuthenticationWithToken(Authentication auth, String token) {
+        super(auth.getPrincipal(), auth.getCredentials(), auth.getAuthorities());
         this.token = token;
     }
 

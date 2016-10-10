@@ -1,5 +1,6 @@
-package com.greenleaves.spring.gulp.config.filter;
+package com.greenleaves.spring.gulp.config.security.filter;
 
+import com.greenleaves.spring.gulp.config.security.auth.AuthenticationWithToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,20 +18,28 @@ import java.io.IOException;
 /**
  * Created by sgdn001 on 7/18/2016.
  */
-public class TokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationProcessingFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
-    public TokenAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
+    public TokenAuthenticationFilter(AuthenticationManager authenticationManager) {
         super("/**");
         this.setAuthenticationManager(authenticationManager);
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        LOGGER.info("attempt to authenticate");
-        return null;
+    protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        return request.getHeader("auth-token") != null;
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        LOGGER.info("attempt to authenticate token");
+        String token = request.getHeader("auth-token");
+
+        AuthenticationWithToken authRequest = new AuthenticationWithToken(token);
+        return getAuthenticationManager().authenticate(authRequest);
     }
 
     @Override

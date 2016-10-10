@@ -1,11 +1,13 @@
-package com.greenleaves.spring.gulp.config;
+package com.greenleaves.spring.gulp.config.security;
 
-import com.greenleaves.spring.gulp.config.filter.LogFilter;
-import com.greenleaves.spring.gulp.config.filter.TokenAuthenticationProcessingFilter;
-import com.greenleaves.spring.gulp.config.security.TokenAuthenticationProvider;
+import com.greenleaves.spring.gulp.config.security.filter.TokenAuthenticationFilter;
+import com.greenleaves.spring.gulp.config.security.filter.UsernamePasswordAuthenticationFilter;
+import com.greenleaves.spring.gulp.config.security.provider.TokenAuthenticationProvider;
+import com.greenleaves.spring.gulp.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,53 +34,57 @@ import java.io.IOException;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    TokenService tokenService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .csrf().disable()
             .httpBasic().and().authorizeRequests()
-            .antMatchers("/**").permitAll()
+            //.antMatchers("/**").permitAll()
+            .antMatchers("/api/user/**").authenticated()
             .antMatchers("/api/admin/**").hasRole("ADMIN")
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
-        http.addFilterBefore(new TokenAuthenticationProcessingFilter(authenticationManager()), BasicAuthenticationFilter.class);
+        //http.addFilterBefore(new UsernamePasswordAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new TokenAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
     }
 
-    @Bean
-    LogFilter logFilter() {
-        return new LogFilter();
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
         auth.authenticationProvider(tokenAuthProvider());
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Override
+    @Bean
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean
     public AuthenticationProvider tokenAuthProvider() {
-        TokenAuthenticationProvider tokenAuthProvider = new TokenAuthenticationProvider();
-        //authProvider.setUserDetailsService(userDetailsService);
-        //authProvider.setPasswordEncoder(passwordEncoder());
+        TokenAuthenticationProvider tokenAuthProvider = new TokenAuthenticationProvider(tokenService);
+
         return tokenAuthProvider;
     }
 
-//    @Bean
-//    public TokenAuthenticationProcessingFilter tokenAuthenticationProcessingFilter() throws Exception {
-//        return new TokenAuthenticationProcessingFilter(authenticationManager());
-//    }
+    @Bean
+    public AuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        //daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
-    //Disable auto register AuthenticationTokenProcessingFilter
-//    @Bean
-//    public FilterRegistrationBean registration(AuthenticationTokenProcessingFilter filter) {
-//        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
-//        registration.setEnabled(false);
-//        return registration;
-//    }
-
+        return  daoAuthenticationProvider;
+    }
 
     @Bean
     public AuthenticationEntryPoint unauthorizedEntryPoint() {
