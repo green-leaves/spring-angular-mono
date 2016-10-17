@@ -1,7 +1,6 @@
 package com.greenleaves.spring.gulp.config.security;
 
 import com.greenleaves.spring.gulp.config.security.filter.TokenAuthenticationFilter;
-import com.greenleaves.spring.gulp.config.security.filter.UsernamePasswordAuthenticationFilter;
 import com.greenleaves.spring.gulp.config.security.provider.TokenAuthenticationProvider;
 import com.greenleaves.spring.gulp.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -84,6 +85,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
         return  daoAuthenticationProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

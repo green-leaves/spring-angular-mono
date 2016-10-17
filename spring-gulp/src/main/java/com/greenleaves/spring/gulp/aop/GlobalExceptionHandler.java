@@ -3,9 +3,11 @@ package com.greenleaves.spring.gulp.aop;
 import com.greenleaves.spring.gulp.model.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,6 +30,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = AuthenticationException.class)
+    @ResponseStatus(value= HttpStatus.UNAUTHORIZED)
     public ErrorDTO authenticationExceptionHandler(Exception exception) {
         logger.error(exception.getMessage());
         ErrorDTO errorDTO = new ErrorDTO();

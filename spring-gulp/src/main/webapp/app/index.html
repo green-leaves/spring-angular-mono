@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/app.css">
     <!--endbuild-->
 </head>
-<body>
+<body ng-controller="AppController" ng-cloak>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -24,14 +24,11 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <!--<li><a href="#">Dashboard</a></li>-->
-                    <!--<li><a href="#">Settings</a></li>-->
+                    <li><a href="#">Hello, {{username}}</a></li>
+                    <li><a href="#" ng-click="logOut()">Logout</a></li>
                     <!--<li><a href="#">Profile</a></li>-->
                     <!--<li><a href="#">Help</a></li>-->
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
             </div>
         </div>
     </nav>
@@ -39,7 +36,8 @@
         <div class="row">
             <div class="col-sm-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li><a ui-sref="home">D3 Chart <i class="fa fa-star"></i></a></li>
+                    <li><a ui-sref="home">Home</a></li>
+                    <li><a ui-sref="chart">D3 Chart <i class="fa fa-star"></i></a></li>
                     <li><a ui-sref="admin">Admin</a></li>
                 </ul>
             </div>
@@ -52,13 +50,24 @@
     <!--build:js js/vendor.min.js -->
     <script type="text/javascript" src="vendor/js/jquery.js"></script>
     <script type="text/javascript" src="vendor/js/angular.js"></script>
+    <script type="text/javascript" src="vendor/js/angular-cookies.js"></script>
     <script type="text/javascript" src="vendor/js/angular-ui-router.js"></script>
     <script type="text/javascript" src="vendor/js/d3.js"></script>
     <!-- endbuild -->
 
     <!--build:js js/app.min.js -->
     <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/app.run.js"></script>
+
+    <script type="text/javascript" src="js/interceptor/http.interceptor.js"></script>
+
+    <script type="text/javascript" src="js/app.controller.js"></script>
     <script type="text/javascript" src="js/home/home.controller.js"></script>
+    <script type="text/javascript" src="js/chart/chart.controller.js"></script>
+
+    <script type="text/javascript" src="js/service/access.service.js"></script>
+    <script type="text/javascript" src="js/service/auth.service.js"></script>
+    <script type="text/javascript" src="js/service/user-profile.service.js"></script>
     <!-- endbuild -->
 
 </body>

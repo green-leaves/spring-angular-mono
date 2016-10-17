@@ -24,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<String> roles = new ArrayList<>();
         if ("admin".equalsIgnoreCase(username)) {
             roles.add("ROLE_ADMIN");
+        } else {
+            roles.add("ROLE_USER");
         }
         return new User(username, "123456", true, true, true, true, getAuthorities(roles));
     }

@@ -1,6 +1,7 @@
 package com.greenleaves.spring.gulp.controller;
 
 import com.greenleaves.spring.gulp.model.LoginRequest;
+import com.greenleaves.spring.gulp.model.LoginResponse;
 import com.greenleaves.spring.gulp.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class LoginController {
     AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@RequestBody LoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
 
@@ -42,10 +43,13 @@ public class LoginController {
 
         String token = UUID.randomUUID().toString();
 
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(token);
+
         tokenService.put(token, authentication);
 
         logger.info(loginRequest.toString());
 
-        return token;
+        return loginResponse;
     }
 }
