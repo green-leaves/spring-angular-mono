@@ -8,7 +8,7 @@ function loginService($http) {
     function login(request) {
         return $http({
             method: 'POST',
-            url: '/login',
+            url: '/api/login',
             data: request
         });
     }

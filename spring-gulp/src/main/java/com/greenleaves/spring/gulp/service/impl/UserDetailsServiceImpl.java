@@ -1,7 +1,5 @@
 package com.greenleaves.spring.gulp.service.impl;
 
-import netscape.security.Privilege;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

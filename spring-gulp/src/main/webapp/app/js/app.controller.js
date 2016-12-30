@@ -2,6 +2,7 @@ angular.module('spring-gulp').controller('AppController', AppController);
 
 function AppController($scope, $cookies, $window, UserProfile) {
     $scope.logOut = logOut;
+    $scope.isAuthenticated = false;
 
     init();
     /////////////////////////////////
@@ -10,12 +11,14 @@ function AppController($scope, $cookies, $window, UserProfile) {
         UserProfile.then(function(userProfile) {
             console.log(userProfile);
             $scope.username = userProfile.username;
+            $scope.isAuthenticated = true;
         });
     }
 
     function logOut() {
         $cookies.remove("token");
-        $window.location.href = '/app/login.html'
+        console.log($window.location);
+        $window.location.href = $window.location.pathname + 'login.html';
 
     }
 }

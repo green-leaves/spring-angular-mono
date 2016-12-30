@@ -33,7 +33,7 @@ public class LoginController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "api/login", method = RequestMethod.POST)
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());

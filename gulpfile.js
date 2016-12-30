@@ -22,7 +22,7 @@ gulp.task('run', function() {
 
 gulp.task('build', function() {
     //console.log("building");
-    runSequence('clean', 'less', 'bower:js', 'bower:css', 'useref');
+    runSequence('clean', 'less', 'bower:js', 'bower:css', 'copy:html', 'copy:font', 'useref');
 });
 
 
@@ -31,7 +31,10 @@ gulp.task('clean', function() {
 });
 
 gulp.task('useref', function(){
-    return gulp.src(config.app + 'index.html')
+    return gulp.src([
+                        config.app + 'index.html',
+                        config.app + 'login.html'
+                    ])
             .pipe(plugins.useref())
             .pipe(plugins.if('*.js', plugins.ngAnnotate()))
             //.pipe(plugins.if(['*.js', '!' + config.app + 'vendor/js/**'], plugins.babel({
@@ -79,7 +82,13 @@ gulp.task('bower:css', function() {
             .pipe(gulp.dest(config.app + "vendor/fonts"))
 });
 
-gulp.task('copy:fonts', function() {
+gulp.task('copy:html', function() {
+    return gulp.src(config.app + "js/**/*.html")
+        .pipe(gulp.dest(config.dist + "js"));
+
+});
+
+gulp.task('copy:font', function() {
     return gulp.src(config.app + "vendor/fonts/**/*")
         .pipe(gulp.dest(config.dist + "fonts"));
 

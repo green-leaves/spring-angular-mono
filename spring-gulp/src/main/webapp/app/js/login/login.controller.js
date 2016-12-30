@@ -14,8 +14,10 @@ function LoginController($scope, loginService, $cookies, $window) {
 
         function loginSuccess(payload) {
             console.log(payload.data);
+            console.log($window.location);
             $cookies.put('token', payload.data.token);
-            $window.location.href = '/app/#/'
+            $window.location.href = $window.location.pathname.replace("login.html", "");
+
         }
 
         function loginError(error) {

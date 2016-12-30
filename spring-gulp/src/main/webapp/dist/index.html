@@ -5,7 +5,7 @@
     <title>Social Experiment</title>
     <link rel="stylesheet" href="css/styles.min.css">
 </head>
-<body>
+<body ng-controller="AppController" ng-cloak>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -19,14 +19,11 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <!--<li><a href="#">Dashboard</a></li>-->
-                    <!--<li><a href="#">Settings</a></li>-->
+                    <li><a href="#">Hello, {{username}}</a></li>
+                    <li><a href="#" ng-click="logOut()">Logout</a></li>
                     <!--<li><a href="#">Profile</a></li>-->
                     <!--<li><a href="#">Help</a></li>-->
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
             </div>
         </div>
     </nav>

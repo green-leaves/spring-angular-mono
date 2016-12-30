@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <!--build:css css/login.min.css-->
     <link rel="stylesheet" href="vendor/css/bootstrap.css">
     <link rel="stylesheet" href="vendor/css/font-awesome.css">
     <link rel="stylesheet" href="css/login.css">
+    <!--endbuild-->
 </head>
 <body ng-controller="LoginController">
     <div class="text-center" style="padding:50px 0">
@@ -40,12 +42,15 @@
         <!-- end:Main Form -->
     </div>
 </body>
-    <!--build:js js/vendor.min.js -->
+    <!--build:js js/login-vendor.min.js -->
     <script type="text/javascript" src="vendor/js/jquery.js"></script>
     <script type="text/javascript" src="vendor/js/angular.js"></script>
     <script type="text/javascript" src="vendor/js/angular-cookies.js"></script>
     <!-- endbuild -->
+
+    <!--build:js js/login.min.js -->
     <script type="text/javascript" src="js/login/login.js"></script>
     <script type="text/javascript" src="js/login/login.controller.js"></script>
     <script type="text/javascript" src="js/service/login.service.js"></script>
+    <!-- endbuild -->
 </html>

@@ -20,7 +20,6 @@ angular.module('spring-gulp').config(function ($stateProvider, $httpProvider, $u
                 }]
             }
         })
-
         .state({
             name: 'chart',
             url: '/chart',
@@ -32,7 +31,6 @@ angular.module('spring-gulp').config(function ($stateProvider, $httpProvider, $u
                 }]
             }
         })
-
         .state({
             name: 'admin',
             url: '/admin',
@@ -42,5 +40,12 @@ angular.module('spring-gulp').config(function ($stateProvider, $httpProvider, $u
                     return Access.hasRole('ROLE_ADMIN');
                 }]
             }
-        });
+        })
+        .state({
+            name: 'login',
+            url: '/login',
+            template: 'This is login page'
+        })
+
+    ;
 });
